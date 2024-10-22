@@ -15,7 +15,7 @@ ext="TS"
 input_size = 12
 cnn_channels = 16
 lstm_hidden_size = 32
-lstm_num_layers = 8
+lstm_num_layers = 1  # Reduced number of LSTM layers for less complexity
 output_size = 17
 
 # Define Hybrid CNN-LSTM Model with Attention
