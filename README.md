@@ -15,7 +15,7 @@ The hybrid model consists of:
 2. **Attention Mechanism**: A spatial attention mechanism highlights the important parts of the sequence, enhancing the model's ability to focus on critical segments of the input.
 
 3. **LSTM Layers**: Process the sequential data to capture temporal dependencies.
-   - LSTM with 12 layers and a hidden size of 8.
+   - LSTM with 1 layers and a hidden size of 8.
 
 4. **Fully Connected (FC) Layer**: Used to map the output of the LSTM to 17 class labels.
 
@@ -32,7 +32,7 @@ The dataset consists of time series data that has been normalized. Separate CSV 
 - **Training Data**: `train.csv`
 - **Testing Data**: `test.csv`
 
-The dataset is loaded using a custom `CustomDataset` class and fed into the model using `DataLoader`. Each batch size is set to 1.
+The dataset is loaded using a custom `CustomDataset` class and fed into the model using `DataLoader`. Each batch size is set to 32.
 
 ## Training Process
 
@@ -146,7 +146,7 @@ ext = "TS"
 input_size = 12
 cnn_channels = 16
 lstm_hidden_size = 8
-lstm_num_layers = 12
+lstm_num_layers = 1
 output_size = 17
 ```
 - **input_size**: The number of features in each time series input.
