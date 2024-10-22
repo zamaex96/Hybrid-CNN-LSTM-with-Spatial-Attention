@@ -23,7 +23,7 @@ The **model parameters** are:
 - Input size: 12
 - CNN Channels: 16
 - LSTM Hidden Size: 8
-- LSTM Layers: 12
+- LSTM Layers: 1
 - Output Size: 17
 
 ## Dataset
