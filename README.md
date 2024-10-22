@@ -367,7 +367,7 @@ This step-by-step breakdown explains the entire process of building, training, t
 
 <div align="center">
   <a href="https://www.example.com">
-    <img width="150" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" alt="gh" />
+    <img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" alt="gh" />
   </a>
 </div>
 
