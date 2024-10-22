@@ -369,5 +369,7 @@ This step-by-step breakdown explains the entire process of building, training, t
   <a href="https://maazsalman.org/">
     <img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" alt="gh" />
   </a>
+  <p> Explore More! 🚀</p>
 </div>
+
 
