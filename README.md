@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This documents the training and evaluation of a **Hybrid CNN-LSTM Attention model** for time series classification in a DUI detection dataset. The model combines convolutional neural networks (CNNs) for feature extraction, long short-term memory (LSTM) networks for sequential modeling, and attention mechanisms to focus on important parts of the sequence. The goal is to classify sequences into 17 different classes based on the provided normalized time-series data.
+This documents the training and evaluation of a **Hybrid CNN-LSTM Attention model** for time series classification in a dataset. The model combines convolutional neural networks (CNNs) for feature extraction, long short-term memory (LSTM) networks for sequential modeling, and attention mechanisms to focus on important parts of the sequence. The goal is to classify sequences into different classes based on the provided normalized time-series data.
 
 ## Model Architecture
 
