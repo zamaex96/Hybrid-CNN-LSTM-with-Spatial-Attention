@@ -88,8 +88,8 @@ Both plots are saved in PNG and PDF formats for documentation purposes.
 - **Training Data**: Saved as a CSV file containing the loss and accuracy values across all epochs.
 
 The files are stored in predefined output folders:
-- **Model Path**: `Models/HybridCNNLSTMAttention_TSNormOnly.pth`
-- **Training Data CSV Path**: `CSV/HybridCNNLSTMAttention_TSNormOnly.csv`
+- **Model Path**: `Models/HybridCNNLSTMAttention_TS.pth`
+- **Training Data CSV Path**: `CSV/HybridCNNLSTMAttention_TS.csv`
 - **Plot Files**: 
   - PNG: `Plots/HybridCNNLSTMAttention_TS.png`
   - PDF: `Plots/HybridCNNLSTMAttention_TS.pdf`
@@ -103,7 +103,7 @@ The **Hybrid CNN-LSTM with Attention** architecture successfully processes time 
 - **Advanced Attention Mechanisms**: Experiment with more complex attention mechanisms to improve model accuracy.
 - **Regularization**: Add dropout or weight decay to reduce overfitting and improve generalization.
 
-This model forms a strong foundation for time series classification in DUI detection, and further optimizations may enhance performance.
+This model forms a strong foundation for time series classification, and further optimizations may enhance performance.
 
 --- 
 
