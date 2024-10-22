@@ -365,4 +365,9 @@ plt.show()
 
 This step-by-step breakdown explains the entire process of building, training, testing, saving, and visualizing the performance of the **Hybrid CNN-LSTM Attention model**.
 
-**[Explore More Resources](https://www.example.com)**
+<div align="center">
+  <a href="https://www.example.com">
+    <img src="https://www.example.com/path-to-button-image.png" alt="Click me!" style="width:200px;">
+  </a>
+</div>
+
