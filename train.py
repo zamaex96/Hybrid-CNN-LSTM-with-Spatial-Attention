@@ -18,6 +18,9 @@ lstm_hidden_size = 32
 lstm_num_layers = 1  # Reduced number of LSTM layers for less complexity
 output_size = 17
 
+# Change batch size here
+batch_size = 32  # Change this value to your desired batch size
+
 # Define Hybrid CNN-LSTM Model with Attention
 model = HybridCNNLSTMAttention(input_size, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size)
 
@@ -35,8 +38,8 @@ train_dataset = CustomDataset(train_csv_path)
 test_dataset = CustomDataset(test_csv_path)
 
 
-train_data_loader = DataLoader(train_dataset, batch_size=12, shuffle=True)
-test_data_loader = DataLoader(test_dataset, batch_size=12, shuffle=False)
+train_data_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+test_data_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
 epochs = 200
 train_loss_values = []
