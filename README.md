@@ -107,7 +107,7 @@ This model forms a strong foundation for time series classification in DUI detec
 
 --- 
 
-# Step-by-Step Process of the Code
+# Step-by-Step Process 
 
 The following steps describe the process and functionality of the provided code, which builds, trains, and evaluates a **Hybrid CNN-LSTM Attention model** for time series classification.
 
@@ -135,7 +135,7 @@ The code begins by importing the necessary libraries:
 
 ```python
 model_name = "HybridCNNLSTMAttention"
-ext = "TSNormOnly"
+ext = "TS"
 ```
 
 - `model_name` specifies the name of the model.
@@ -143,7 +143,7 @@ ext = "TSNormOnly"
 
 ### Model Parameters:
 ```python
-input_size = 1201
+input_size = 12
 cnn_channels = 16
 lstm_hidden_size = 8
 lstm_num_layers = 12
@@ -187,8 +187,8 @@ optimizer = optim.SGD(model.parameters(), lr=0.01)
 ### Paths to Training and Testing Data:
 
 ```python
-train_csv_path = r"train_norm_only.csv"
-test_csv_path = r"test_norm_only.csv"
+train_csv_path = r"train.csv"
+test_csv_path = r"test.csv"
 ```
 
 - **train_csv_path**: Path to the training dataset (normalized time series).
