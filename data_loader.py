@@ -9,7 +9,7 @@ class CustomDataset(Dataset):
         self.data = pd.read_csv(csv_path)
         self.inputs = self.data.iloc[:, :-1].values
        # print(self.inputs.shape())
-        self.labels = self.data.iloc[:, -1].values
+        self.labels = self.data.iloc[:, -1].values  # #The labels are considered as belonging to the last column.
 
     def __len__(self):
         return len(self.data)
