@@ -110,7 +110,19 @@ output_folder3 = r"C:\ML\Plots"  # Replace with desired path
 os.makedirs(output_folder3, exist_ok=True)  # Create folder if it doesn't exist
 # Save the model state
 model_path = os.path.join(output_folder1, f"{model_name}_{ext}.pth")
-torch.save(model.state_dict(), model_path)
+torch.save({
+    'model_state_dict': model.state_dict(),
+    'hyperparameters': {
+        'input_size': input_size,
+        'cnn_channels': cnn_channels,
+        'num_epochs': num_epochs,
+        'output_size': output_size,
+        'lstm_hidden_size': lstm_hidden_size,
+        'learning_rate': learning_Rate,
+        'lstm_num_layers': lstm_num_layers,
+         'batch_size': batch_Size,
+    }
+}, model_path)
 print(f"Model saved at {model_path}")
 
 train_info = {'train_loss': train_loss_values,
