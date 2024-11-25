@@ -30,6 +30,7 @@ print(f"Using device: {device}")
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
+#optimizer = optim.Adam(model.parameters(), lr=0.001) #alternate optimizer
 
 # Paths to training and testing data
 train_csv_path = r"C:\train.csv"
