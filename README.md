@@ -138,7 +138,7 @@ model_path = save_model(
     batch_size=32
 )
 print(f"Model saved at: {model_path}")
-
+```
 ## Conclusion
 
 The **Hybrid CNN-LSTM with Attention** architecture successfully processes time series data for multi-class classification tasks. Both the training and evaluation processes are automated, and the results are well-documented through plots and saved models.
