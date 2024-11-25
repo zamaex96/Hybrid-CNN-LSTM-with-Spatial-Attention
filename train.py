@@ -26,6 +26,7 @@ model = HybridCNNLSTMAttention(input_size, cnn_channels, lstm_hidden_size, lstm_
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
+print(f"Using device: {device}")
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
