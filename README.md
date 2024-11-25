@@ -93,6 +93,51 @@ The files are stored in predefined output folders:
 - **Plot Files**: 
   - PNG: `Plots/HybridCNNLSTMAttention_TS.png`
   - PDF: `Plots/HybridCNNLSTMAttention_TS.pdf`
+    
+### save_model Function
+
+#### Purpose
+The `save_model` function saves a PyTorch model and its associated hyperparameters to a specified file location. This allows for easy storage and later retrieval of the trained model and its configuration for inference or further training.
+
+#### Parameters
+- **output_folder (str):** Path to the directory where the model file will be saved.
+- **model_name (str):** Name of the model file (without extension).
+- **ext (str):** File extension for the saved file (e.g., 'checkpoint', 'final').
+- **model (torch.nn.Module):** The PyTorch model instance to be saved.
+- **input_size (int):** Size of the input feature vector.
+- **cnn_channels (int):** Number of channels in the CNN layers of the model.
+- **num_epochs (int):** Total number of epochs used for training.
+- **output_size (int):** Dimension of the model's output.
+- **lstm_hidden_size (int):** Number of hidden units in the LSTM layers.
+- **learning_rate (float):** Learning rate used for model training.
+- **lstm_num_layers (int):** Number of stacked LSTM layers.
+- **batch_size (int):** Batch size used for training.
+
+#### Returns
+- **str:** The file path where the model was saved.
+
+#### Key Operations
+1. Constructs a file path using the provided folder, model name, and extension.
+2. Saves the model's `state_dict` and hyperparameters into a `.pth` file using `torch.save`.
+3. Prints and returns the path of the saved model.
+
+#### Example Usage
+```python
+model_path = save_model(
+    output_folder="models/",
+    model_name="my_model",
+    ext="checkpoint",
+    model=my_model,
+    input_size=128,
+    cnn_channels=64,
+    num_epochs=50,
+    output_size=10,
+    lstm_hidden_size=256,
+    learning_rate=0.001,
+    lstm_num_layers=2,
+    batch_size=32
+)
+print(f"Model saved at: {model_path}")
 
 ## Conclusion
 
