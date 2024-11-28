@@ -128,10 +128,10 @@ model_path = save_model(
     model_name="my_model",
     ext="checkpoint",
     model=my_model,
-    input_size=128,
+    input_size=8,
     cnn_channels=64,
     num_epochs=50,
-    output_size=10,
+    output_size=4,
     lstm_hidden_size=256,
     learning_rate=0.001,
     lstm_num_layers=2,
@@ -188,17 +188,17 @@ ext = "TS"
 
 ### Model Parameters:
 ```python
-input_size = 12
+input_size = 8
 cnn_channels = 16
 lstm_hidden_size = 8
 lstm_num_layers = 1
-output_size = 17
+output_size = 4
 ```
 - **input_size**: The number of features in each time series input.
 - **cnn_channels**: The number of channels in the first CNN layer.
 - **lstm_hidden_size**: Hidden size of the LSTM layers.
 - **lstm_num_layers**: Number of stacked LSTM layers.
-- **output_size**: Number of output classes (17 in this case).
+- **output_size**: Number of output classes (4 in this case).
 
 ### Initialize Model:
 
