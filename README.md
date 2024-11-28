@@ -17,14 +17,14 @@ The hybrid model consists of:
 3. **LSTM Layers**: Process the sequential data to capture temporal dependencies.
    - LSTM with 1 layers and a hidden size of 8.
 
-4. **Fully Connected (FC) Layer**: Used to map the output of the LSTM to 17 class labels.
+4. **Fully Connected (FC) Layer**: Used to map the output of the LSTM to 4 class labels.
 
 The **model parameters** are:
-- Input size: 12
+- Input size: 8
 - CNN Channels: 16
 - LSTM Hidden Size: 8
 - LSTM Layers: 1
-- Output Size: 17
+- Output Size: 4
 
 ## Dataset
 
