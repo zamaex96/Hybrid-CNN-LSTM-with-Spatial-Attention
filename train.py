@@ -12,11 +12,11 @@ model_name = "HybridCNNLSTMAttention"
 ext="TS"
 
 # Model parameters
-input_size = 12
+input_size = 8
 cnn_channels = 16
 lstm_hidden_size = 32
 lstm_num_layers = 1  # Reduced number of LSTM layers for less complexity
-output_size = 17
+output_size = 4
 
 # Change batch size here
 batch_size = 32  # Change this value to your desired batch size
