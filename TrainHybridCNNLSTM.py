@@ -35,8 +35,8 @@ optimizer = optim.SGD(model.parameters(), lr=learning_Rate)
 
 
 # Paths to training and testing data
-train_csv_path = r"C:\BULabAssets\BULabProjects\BiomaterialData\dataset\Alginate\Cropped\TrainAndTest\train.csv"
-test_csv_path = r"C:\BULabAssets\BULabProjects\BiomaterialData\dataset\Alginate\Cropped\TrainAndTest\test.csv"
+train_csv_path = r"C:\train.csv"
+test_csv_path = r"C:\test.csv"
 
 train_dataset = CustomDataset(train_csv_path)
 test_dataset = CustomDataset(test_csv_path)
