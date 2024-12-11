@@ -22,7 +22,7 @@ num_epochs=100
 learning_Rate=0.01
 batch_Size=64
 
-# Define Hybrid CNN-LSTM Model with Attention
+# Define Hybrid CNN-LSTM Model
 model = HybridCNNLSTM(input_channels, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size)
 #def __init__(self, input_channels, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -105,11 +105,11 @@ for epoch in range(epochs):
         print(f'Epoch [{epoch + 1}/{epochs}], Train Loss: {epoch_train_loss:.4f}, Test Loss: {epoch_test_loss:.4f}, Train Accuracy: {train_accuracy:.2f}%, Test Accuracy: {test_accuracy:.2f}%')
 
 # Specify output folder for saving the model, CSV file, and plots
-output_folder1 = r"C:\BULabAssets\BULabProjects\BiomaterialData\ML\Models"# Replace with desired path
+output_folder1 = r"C:\ML\Models"# Replace with desired path
 os.makedirs(output_folder1, exist_ok=True)  # Create folder if it doesn't exist
-output_folder2 = r"C:\BULabAssets\BULabProjects\BiomaterialData\ML\CSV"  # Replace with desired path
+output_folder2 = r"C:\ML\CSV"  # Replace with desired path
 os.makedirs(output_folder2, exist_ok=True)  # Create folder if it doesn't exist
-output_folder3 = r"C:\BULabAssets\BULabProjects\BiomaterialData\ML\Plots" # Replace with desired path
+output_folder3 = r"C:\ML\Plots" # Replace with desired path
 os.makedirs(output_folder3, exist_ok=True)  # Create folder if it doesn't exist
 # Save the model state
 # Save the final model
