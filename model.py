@@ -54,30 +54,6 @@ class SpatialAttention(nn.Module):
 
 
 
-
-class HybridCNNLSTM(nn.Module):
-    def __init__(self, input_channels, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size):
-        super(HybridCNNLSTM, self).__init__()
-        # CNN feature extractor
-        self.cnn = nn.Sequential(
-            nn.Conv1d(in_channels=input_channels, out_channels=cnn_channels, kernel_size=3, padding=1),
-            nn.ReLU(),
-            nn.MaxPool1d(kernel_size=2, stride=2),  # Downsample sequence length
-            nn.Conv1d(in_channels=cnn_channels, out_channels=cnn_channels * 2, kernel_size=3, padding=1),
-            nn.ReLU(),
-            nn.AdaptiveMaxPool1d(output_size)  # Ensure consistent output size
-        )
-        # LSTM for sequential feature modeling
-        self.lstm = nn.LSTM(input_size=cnn_channels * 2, hidden_size=lstm_hidden_size,
-                            num_layers=lstm_num_layers, batch_first=True)
-        # Fully connected layer for classification
-        self.fc = nn.Linear(lstm_hidden_size, output_size)
-
-    def forward(self, x):
-        input_channels=import torch
-import torch.nn as nn
-
-
 class HybridCNNLSTM(nn.Module):
     def __init__(self, input_channels, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size):
         super(HybridCNNLSTM, self).__init__()
