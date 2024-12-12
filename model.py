@@ -125,3 +125,49 @@ class HybridCNNLSTM(nn.Module):
 
         return x
 
+# Alternative of HybridCNNLSTM
+class HybridCNNLSTM(nn.Module):
+    def __init__(self, input_channels, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size):
+        super(HybridCNNLSTM, self).__init__()
+        
+        # CNN feature extractor
+        self.cnn = nn.Sequential(
+            nn.Conv1d(in_channels=input_channels, out_channels=cnn_channels, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool1d(kernel_size=2, stride=2),  # Downsample sequence length
+            nn.Conv1d(in_channels=cnn_channels, out_channels=cnn_channels * 2, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.AdaptiveMaxPool1d(1)  # Ensure consistent output size of 1 for each sequence
+        )
+        
+        # LSTM for sequential feature modeling
+        self.lstm = nn.LSTM(input_size=cnn_channels * 2, hidden_size=lstm_hidden_size,
+                            num_layers=lstm_num_layers, batch_first=True)
+        
+        # Fully connected layer for classification
+        self.fc = nn.Linear(lstm_hidden_size, output_size)
+
+    def forward(self, x):
+        # Ensure input is 3D: [batch_size, channels, sequence_length]
+        if x.dim() == 2:
+            x = x.unsqueeze(1)  # Add channel dimension if input is 2D
+        elif x.dim() != 3:
+            raise ValueError(f"Expected input tensor to be 3D, but got {x.dim()}D tensor instead.")
+
+        # If input has only one channel, duplicate it to match `input_channels`
+        if x.size(1) == 1:
+            x = x.repeat(1, self.cnn[0].in_channels, 1)  # Use the first conv layer's in_channels
+
+        # CNN processing
+        x = self.cnn(x)
+
+        # Reshape for LSTM: [batch_size, seq_len, features]
+        x = x.squeeze(2)  # Remove the dimension where we have only 1 length due to AdaptiveMaxPool1d
+
+        # LSTM processing
+        x, _ = self.lstm(x.unsqueeze(1))  # Add sequence length dimension for LSTM
+
+        # Use the last LSTM output for classification
+        x = self.fc(x.squeeze(1))  # Remove the sequence length dimension
+
+        return x
