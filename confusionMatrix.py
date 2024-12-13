@@ -98,10 +98,6 @@ def plot_confusion_matrix(true_labels, predicted_labels, class_names):
 
 
 model_inference = HybridCNNLSTM(input_channels, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size)
-#model_inference = load_model_from_checkpoint(model_path)
-#model_inference = SpatialAttentionModel(input_size, hidden_size, output_size, num_layers)
-#model_inference = TransformerModel(input_size, hidden_size, output_size, num_layers=num_layers, nhead=n_head)
-#model_inference = HybridCNNLSTMAttention(input_size, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size)
 checkpoint = torch.load(model_path, map_location=torch.device('cpu'),weights_only=True)
 model_inference.load_state_dict(checkpoint['model_state_dict'])
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
