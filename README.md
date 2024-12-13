@@ -557,6 +557,194 @@ plt.show()
 
 This step-by-step breakdown explains the entire process of building, training, testing, saving, and visualizing the performance of the **Hybrid CNN-LSTM Attention model**.
 
+
+# Hybrid CNN-LSTM Model Training Script
+
+## 1. Import Required Libraries
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, Dataset
+import matplotlib.pyplot as plt
+import pandas as pd
+import os
+from model import HybridCNNLSTM
+from data_loader import CustomDataset
+```
+- Imports essential PyTorch libraries for deep learning
+- Includes data handling, neural network modules, and optimization tools
+- Imports custom model and data loader classes
+
+## 2. Model and Training Configuration
+```python
+model_name = "HybridCNNLSTM"
+ext = "TS"
+
+# Model parameters
+input_channels = 10001
+cnn_channels = 24
+lstm_hidden_size = 12
+lstm_num_layers = 2
+output_size = 9
+num_epochs = 100
+learning_Rate = 0.01
+batch_Size = 64
+```
+- Defines model hyperparameters
+- `input_channels`: Number of input features
+- `cnn_channels`: Convolutional layers channels
+- `lstm_hidden_size`: LSTM hidden layer size
+- `lstm_num_layers`: Number of LSTM layers
+- `output_size`: Number of classification categories
+- Configures training settings like epochs, learning rate, and batch size
+
+## 3. Model Initialization and Device Selection
+```python
+model = HybridCNNLSTM(input_channels, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+```
+- Instantiates the Hybrid CNN-LSTM model
+- Selects computational device (GPU or CPU)
+- Moves model to the selected device
+
+## 4. Loss Function and Optimizer Configuration
+```python
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=learning_Rate)
+```
+- Uses Cross-Entropy Loss for multi-class classification
+- Configures Stochastic Gradient Descent (SGD) optimizer
+
+## 5. Data Preparation
+```python
+train_dataset = CustomDataset(train_csv_path)
+test_dataset = CustomDataset(test_csv_path)
+
+train_data_loader = DataLoader(train_dataset, batch_size=batch_Size, shuffle=True)
+test_data_loader = DataLoader(test_dataset, batch_size=batch_Size, shuffle=False)
+```
+- Creates custom datasets from CSV files
+- Prepares DataLoaders for training and testing
+- Enables batch processing and data shuffling
+
+## 6. Training Loop
+```python
+for epoch in range(epochs):
+    # Training phase
+    model.train()
+    epoch_train_loss = 0.0
+    correct_train = 0
+    total_train = 0
+    
+    for inputs, labels in train_data_loader:
+        # Move data to device
+        inputs, labels = inputs.to(device), labels.to(device)
+        
+        # Zero gradients
+        optimizer.zero_grad()
+        
+        # Forward pass
+        outputs = model(inputs)
+        
+        # Compute loss
+        loss = criterion(outputs, labels)
+        
+        # Backward pass and optimization
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+        optimizer.step()
+        
+        # Track training metrics
+        epoch_train_loss += loss.item()
+        _, predicted_train = torch.max(outputs.data, 1)
+        total_train += labels.size(0)
+        correct_train += (predicted_train == labels).sum().item()
+```
+Key Training Steps:
+- Set model to training mode
+- Process data in batches
+- Perform forward and backward passes
+- Apply gradient clipping
+- Calculate training loss and accuracy
+
+## 7. Testing Phase
+```python
+    # Testing phase
+    model.eval()
+    epoch_test_loss = 0.0
+    correct_test = 0
+    total_test = 0
+
+    with torch.no_grad():
+        for inputs, labels in test_data_loader:
+            inputs, labels = inputs.to(device), labels.to(device)
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            
+            # Track testing metrics
+            epoch_test_loss += loss.item()
+            _, predicted_test = torch.max(outputs.data, 1)
+            total_test += labels.size(0)
+            correct_test += (predicted_test == labels).sum().item()
+```
+Testing Steps:
+- Set model to evaluation mode
+- Disable gradient computation
+- Calculate test loss and accuracy
+
+## 8. Model and Results Saving
+```python
+# Create output directories
+os.makedirs(output_folder1, exist_ok=True)
+os.makedirs(output_folder2, exist_ok=True)
+os.makedirs(output_folder3, exist_ok=True)
+
+# Save model state
+model_path = os.path.join(output_folder1, f"{model_name}_{ext}.pth")
+torch.save({
+    'model_state_dict': model.state_dict(),
+    'hyperparameters': {...}
+}, model_path)
+
+# Save training metrics
+train_info_df = pd.DataFrame(train_info)
+csv_path = os.path.join(output_folder2, f"{model_name}_{ext}.csv")
+train_info_df.to_csv(csv_path, index=False)
+```
+- Saves model state and hyperparameters
+- Stores training and testing metrics in a CSV file
+
+## 9. Visualization of Training Metrics
+```python
+plt.figure(figsize=(12, 4))
+
+# Loss plot
+plt.subplot(2, 1, 1)
+plt.plot(range(1, epochs + 1), train_loss_values, label='Training Loss')
+plt.plot(range(1, epochs + 1), test_loss_values, label='Testing Loss')
+
+# Accuracy plot
+plt.subplot(2, 1, 2)
+plt.plot(range(1, epochs + 1), train_accuracy_values, label='Training Accuracy')
+plt.plot(range(1, epochs + 1), test_accuracy_values, label='Testing Accuracy')
+
+# Save plots
+plt.savefig(png_file_path, format='png', dpi=600)
+plt.savefig(pdf_file_path, format='pdf', dpi=600)
+```
+- Creates subplots for loss and accuracy
+- Plots training and testing metrics
+- Saves visualizations in PNG and PDF formats
+
+## Key Features and Best Practices
+- GPU/CPU device selection
+- Gradient clipping
+- Detailed metric tracking
+- Flexible model configuration
+- Comprehensive result saving and visualization
+
 <div align="center">
   <a href="https://maazsalman.org/">
     <img width="70" src="click-svgrepo-com.svg" alt="gh" />
