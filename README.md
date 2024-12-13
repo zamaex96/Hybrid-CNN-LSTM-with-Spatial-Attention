@@ -745,6 +745,160 @@ plt.savefig(pdf_file_path, format='pdf', dpi=600)
 - Flexible model configuration
 - Comprehensive result saving and visualization
 
+I'll break down the model code and explain the different hybrid neural network architectures:
+
+# Hybrid CNN-LSTM Neural Network Architectures
+
+## 1. HybridCNNLSTMAttention Model
+
+### Key Components
+```python
+class HybridCNNLSTMAttention(nn.Module):
+    def __init__(self, input_size, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size):
+        # CNN Layers
+        self.cnn = nn.Sequential(
+            nn.Conv1d(...),
+            nn.ReLU(),
+            nn.MaxPool1d(...),
+            nn.Conv1d(...),
+            nn.ReLU(),
+            nn.AdaptiveMaxPool1d(...)
+        )
+        
+        # Spatial Attention Mechanism
+        self.attention = SpatialAttention(...)
+        
+        # LSTM Layers
+        self.lstm = nn.LSTM(...)
+        
+        # Fully Connected Classification Layer
+        self.fc = nn.Linear(...)
+```
+
+### Unique Features
+- Incorporates a Spatial Attention mechanism
+- Uses adaptive max pooling
+- Flexible input handling
+
+### Spatial Attention Mechanism
+```python
+class SpatialAttention(nn.Module):
+    def __init__(self, input_dim):
+        self.conv = nn.Conv1d(in_channels=input_dim, out_channels=1, kernel_size=1)
+
+    def forward(self, x):
+        # Compute attention weights
+        attn_weights = torch.softmax(self.conv(x), dim=-1)
+        return x * attn_weights
+```
+- Learns to focus on important spatial features
+- Uses a 1D convolution to generate attention weights
+
+## 2. Standard HybridCNNLSTM Model
+
+### Architecture
+```python
+class HybridCNNLSTM(nn.Module):
+    def __init__(self, input_channels, cnn_channels, lstm_hidden_size, lstm_num_layers, output_size):
+        # CNN Feature Extractor
+        self.cnn = nn.Sequential(
+            nn.Conv1d(...),  # First convolutional layer
+            nn.ReLU(),
+            nn.MaxPool1d(...),  # Downsampling
+            nn.Conv1d(...),  # Second convolutional layer
+            nn.ReLU(),
+            nn.AdaptiveMaxPool1d(...)  # Adaptive pooling
+        )
+        
+        # LSTM for Sequential Modeling
+        self.lstm = nn.LSTM(...)
+        
+        # Classification Layer
+        self.fc = nn.Linear(...)
+```
+
+### Key Characteristics
+- Combines Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM)
+- CNN extracts spatial features
+- LSTM captures temporal dependencies
+- Final fully connected layer for classification
+
+## 3. Input Preprocessing and Handling
+
+### Input Shape Transformation
+```python
+def forward(self, x):
+    # Handle 2D inputs by adding channel dimension
+    if x.dim() == 2:
+        x = x.unsqueeze(1)
+
+    # Validate input dimensions
+    if x.dim() != 3:
+        raise ValueError("Expected 3D input tensor")
+
+    # Ensure correct input channels
+    if x.size(1) == 1:
+        x = x.repeat(1, input_channels, 1)
+```
+
+### Processing Steps
+1. Check input tensor dimensions
+2. Add channel dimension if missing
+3. Repeat single channel to match required input channels
+
+## 4. Model Flow
+
+### Forward Propagation
+1. CNN Feature Extraction
+   - Convolutional layers
+   - ReLU activation
+   - Pooling for dimensionality reduction
+
+2. LSTM Sequential Processing
+   - Process CNN features
+   - Capture temporal dependencies
+
+3. Classification
+   - Use final LSTM output
+   - Fully connected layer for multi-class prediction
+
+## 5. Model Variants and Customization
+
+### Attention-Based Model
+- Adds spatial attention mechanism
+- Dynamically focuses on important features
+
+### Standard Model
+- Simple CNN-LSTM architecture
+- Fixed feature extraction
+
+## 6. Recommended Modifications
+
+### Hyperparameter Tuning
+- Adjust `cnn_channels`
+- Modify `lstm_hidden_size`
+- Experiment with layer depths
+
+### Input Handling
+- Implement more robust input validation
+- Add flexible channel replication
+
+## 7. Performance Considerations
+- Use GPU for faster computation
+- Monitor overfitting
+- Experiment with different architectures
+
+## Conclusion
+These hybrid models combine:
+- Spatial feature extraction (CNN)
+- Temporal sequence modeling (LSTM)
+- Optional attention mechanisms
+
+Choose based on:
+- Dataset characteristics
+- Computational resources
+- Specific problem requirements
+
 <div align="center">
   <a href="https://maazsalman.org/">
     <img width="70" src="click-svgrepo-com.svg" alt="gh" />
