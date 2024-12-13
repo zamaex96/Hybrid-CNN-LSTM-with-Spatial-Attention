@@ -19,10 +19,10 @@ ext="CM-comb"
 class_names = ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9"]
 delta_font_size=-10
 fixed_size=5
-output_folder1 = r"C:\BULabAssets\BULabProjects\BiomaterialData\ML\Plots"
+output_folder1 = r"C:\ML\Plots"
 os.makedirs(output_folder1, exist_ok=True)
-model_path = r"C:\BULabAssets\BULabProjects\BiomaterialData\ML\Models\HybridCNNLSTM_TS-comb2.pth"
-test_csv_path = r"C:\BULabAssets\BULabProjects\BiomaterialData\dataset\Alginate\Cropped\CombinedTrainAndTest\test.csv"
+model_path = r"C:\ML\Models\HybridCNNLSTM.pth"
+test_csv_path = r"C:\test.csv"
 
 # Load the checkpoint
 checkpoint = torch.load(model_path,weights_only=True)
