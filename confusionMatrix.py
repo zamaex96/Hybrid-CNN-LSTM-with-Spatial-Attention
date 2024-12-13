@@ -160,7 +160,7 @@ print(f"F1 Score: {f1:.2f}%")
 
 # Save metrics to text file
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-output_folder2 = r"C:\BULabAssets\BULabProjects\BiomaterialData\ML\Metrics"
+output_folder2 = r"C:\ML\Metrics"
 os.makedirs(output_folder2, exist_ok=True)
 metrics_filename = os.path.join(output_folder2, f"model_metrics_{model_name}_{ext}_{timestamp}.txt")
 
