@@ -909,7 +909,7 @@ Splitting the data into training and testing sets: This is done to prepare data 
 Processing data incrementally: This approach helps manage memory by not loading the entire dataset into memory at once, which is particularly useful for very large datasets.
 
 ### Step-by-Step Implementation
-1. Imports and Initial Setup
+1. **Imports and Initial Setup**
 Libraries: pandas, numpy, and os are imported for data manipulation, numerical operations, and file path operations respectively.
 Data Loading: The dataset is loaded from a CSV file into a pandas DataFrame.
 
@@ -921,7 +921,7 @@ file_path = r"C:\data.csv"
 data = pd.read_csv(file_path)
 ```
 
-2. Configuration
+2. **Configuration**
 Parameters: train_ratio, window_size, stride, and chunk_size are defined to control data splitting, window creation, and chunk processing. 
 Paths: Paths for output files are set.
 
@@ -935,7 +935,7 @@ train_csv_path = os.path.join(output_folder, 'train.csv')
 test_csv_path = os.path.join(output_folder, 'test.csv')
 ```
 
-3. Function for Incremental Processing
+3. **Function for Incremental Processing**
 Function process_and_save_incrementally:
 Defines how features and labels are structured based on the window size.
 Writes a header to the output CSV file.
@@ -949,7 +949,7 @@ def process_and_save_incrementally(data, window_size, stride, output_path, chunk
     # ... (function body as described)
 ```
 
-4. Data Splitting
+4. **Data Splitting**
 The dataset is split into training and testing sets based on train_ratio.
 
 ```python
@@ -958,7 +958,7 @@ train_data = data.iloc[:split_index]
 test_data = data.iloc[split_index:]
 ```
 
-5. Processing and Saving Data
+5. **Processing and Saving Data**
 Both training and test data are processed using the process_and_save_incrementally function, which writes the reformatted data into CSV files.
 
 ```python
@@ -966,7 +966,7 @@ process_and_save_incrementally(train_data, window_size, stride, train_csv_path, 
 process_and_save_incrementally(test_data, window_size, stride, test_csv_path, chunk_size)
 ```
 
-6. Verification
+6. **Verification**
 Checks file sizes to confirm data was written.
 Reads and prints the first few rows of both files to verify the data structure.
 
@@ -979,7 +979,7 @@ print(pd.read_csv(train_csv_path, nrows=10))
 print(pd.read_csv(test_csv_path, nrows=10))
 ```
 
-Conclusion
+**Conclusion**
 This script essentially transforms raw time-series data into a format suitable for sequential learning models by applying a sliding window technique, all while managing memory usage through incremental processing. This approach ensures that even very large datasets can be processed without overwhelming system resources.
 
 <div align="center">
