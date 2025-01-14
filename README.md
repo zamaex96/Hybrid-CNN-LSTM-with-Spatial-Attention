@@ -904,14 +904,14 @@ Choose based on:
 
 ## Purpose of the Script
 This Python script is designed to handle a large time-series dataset by:
-Creating a rolling window of data: This allows for sequential analysis where each sample includes historical data, which is crucial for time-series forecasting.
-Splitting the data into training and testing sets: This is done to prepare data for machine learning models, specifically for models that benefit from time-series data structuring like RNNs or LSTMs.
-Processing data incrementally: This approach helps manage memory by not loading the entire dataset into memory at once, which is particularly useful for very large datasets.
+- **Creating a rolling window of data:** This allows for sequential analysis where each sample includes historical data, which is crucial for time-series forecasting.
+- **Splitting the data into training and testing sets:** This is done to prepare data for machine learning models, specifically for models that benefit from time-series data structuring like RNNs or LSTMs.
+- **Processing data incrementally:** This approach helps manage memory by not loading the entire dataset into memory at once, which is particularly useful for very large datasets.
 
 ### Step-by-Step Implementation
 1. **Imports and Initial Setup**
-Libraries: pandas, numpy, and os are imported for data manipulation, numerical operations, and file path operations respectively.
-Data Loading: The dataset is loaded from a CSV file into a pandas DataFrame.
+- **Libraries:** pandas, numpy, and os are imported for data manipulation, numerical operations, and file path operations respectively.
+- **Data Loading:** The dataset is loaded from a CSV file into a pandas DataFrame.
 
 ```python
 import pandas as pd
@@ -922,8 +922,8 @@ data = pd.read_csv(file_path)
 ```
 
 2. **Configuration**
-Parameters: train_ratio, window_size, stride, and chunk_size are defined to control data splitting, window creation, and chunk processing. 
-Paths: Paths for output files are set.
+- **Parameters:** train_ratio, window_size, stride, and chunk_size are defined to control data splitting, window creation, and chunk processing. 
+- **Paths:** Paths for output files are set.
 
 ```python
 train_ratio = 0.8
@@ -936,13 +936,13 @@ test_csv_path = os.path.join(output_folder, 'test.csv')
 ```
 
 3. **Function for Incremental Processing**
-Function process_and_save_incrementally:
-Defines how features and labels are structured based on the window size.
-Writes a header to the output CSV file.
-Processes data in chunks to manage memory:
-Reads a chunk of data.
-Creates windows of data, where each window is window_size rows from the past, predicting one step ahead.
-Writes these windows to the CSV file in an append mode.
+- Function process_and_save_incrementally:
+-- Defines how features and labels are structured based on the window size.
+-- Writes a header to the output CSV file.
+-- Processes data in chunks to manage memory:
+--- Reads a chunk of data.
+--- Creates windows of data, where each window is window_size rows from the past, predicting one step ahead.
+--- Writes these windows to the CSV file in an append mode.
 
 ```python
 def process_and_save_incrementally(data, window_size, stride, output_path, chunk_size=1000):
