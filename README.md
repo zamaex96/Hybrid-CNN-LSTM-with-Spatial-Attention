@@ -937,12 +937,12 @@ test_csv_path = os.path.join(output_folder, 'test.csv')
 
 3. **Function for Incremental Processing**
 - Function process_and_save_incrementally:
--- Defines how features and labels are structured based on the window size.
--- Writes a header to the output CSV file.
--- Processes data in chunks to manage memory:
---- Reads a chunk of data.
---- Creates windows of data, where each window is window_size rows from the past, predicting one step ahead.
---- Writes these windows to the CSV file in an append mode.
+  - Defines how features and labels are structured based on the window size.
+  - Writes a header to the output CSV file.
+  - Processes data in chunks to manage memory:
+   - Reads a chunk of data.
+   - Creates windows of data, where each window is window_size rows from the past, predicting one step ahead.
+   - Writes these windows to the CSV file in an append mode.
 
 ```python
 def process_and_save_incrementally(data, window_size, stride, output_path, chunk_size=1000):
@@ -950,7 +950,7 @@ def process_and_save_incrementally(data, window_size, stride, output_path, chunk
 ```
 
 4. **Data Splitting**
-The dataset is split into training and testing sets based on train_ratio.
+- The dataset is split into training and testing sets based on train_ratio.
 
 ```python
 split_index = int(len(data) * train_ratio)
@@ -959,7 +959,7 @@ test_data = data.iloc[split_index:]
 ```
 
 5. **Processing and Saving Data**
-Both training and test data are processed using the process_and_save_incrementally function, which writes the reformatted data into CSV files.
+- Both training and test data are processed using the process_and_save_incrementally function, which writes the reformatted data into CSV files.
 
 ```python
 process_and_save_incrementally(train_data, window_size, stride, train_csv_path, chunk_size)
@@ -967,8 +967,8 @@ process_and_save_incrementally(test_data, window_size, stride, test_csv_path, ch
 ```
 
 6. **Verification**
-Checks file sizes to confirm data was written.
-Reads and prints the first few rows of both files to verify the data structure.
+- Checks file sizes to confirm data was written.
+- Reads and prints the first few rows of both files to verify the data structure.
 
 ```python
 train_size = os.path.getsize(train_csv_path) / (1024 * 1024)
