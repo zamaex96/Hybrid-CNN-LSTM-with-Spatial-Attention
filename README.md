@@ -900,31 +900,32 @@ Choose based on:
 - Specific problem requirements
 
 
-Here is a detailed explanation of the purpose and step-by-step implementation of the script:
+# Split Dataset using Rolling Window
 
-Purpose of the Script
+## Purpose of the Script
 This Python script is designed to handle a large time-series dataset by:
 Creating a rolling window of data: This allows for sequential analysis where each sample includes historical data, which is crucial for time-series forecasting.
 Splitting the data into training and testing sets: This is done to prepare data for machine learning models, specifically for models that benefit from time-series data structuring like RNNs or LSTMs.
 Processing data incrementally: This approach helps manage memory by not loading the entire dataset into memory at once, which is particularly useful for very large datasets.
 
-Step-by-Step Implementation
+### Step-by-Step Implementation
 1. Imports and Initial Setup
 Libraries: pandas, numpy, and os are imported for data manipulation, numerical operations, and file path operations respectively.
 Data Loading: The dataset is loaded from a CSV file into a pandas DataFrame.
 
-python
+```python
 import pandas as pd
 import numpy as np
 import os
 file_path = r"C:\data.csv"
 data = pd.read_csv(file_path)
+```
 
 2. Configuration
 Parameters: train_ratio, window_size, stride, and chunk_size are defined to control data splitting, window creation, and chunk processing. 
 Paths: Paths for output files are set.
 
-python
+```python
 train_ratio = 0.8
 window_size = 10
 stride = 1
@@ -932,6 +933,7 @@ chunk_size = 1000
 output_folder = r"C:\MLFiles"
 train_csv_path = os.path.join(output_folder, 'train.csv')
 test_csv_path = os.path.join(output_folder, 'test.csv')
+```
 
 3. Function for Incremental Processing
 Function process_and_save_incrementally:
@@ -942,36 +944,40 @@ Reads a chunk of data.
 Creates windows of data, where each window is window_size rows from the past, predicting one step ahead.
 Writes these windows to the CSV file in an append mode.
 
-python
+```python
 def process_and_save_incrementally(data, window_size, stride, output_path, chunk_size=1000):
     # ... (function body as described)
+```
 
 4. Data Splitting
 The dataset is split into training and testing sets based on train_ratio.
 
-python
+```python
 split_index = int(len(data) * train_ratio)
 train_data = data.iloc[:split_index]
 test_data = data.iloc[split_index:]
+```
 
 5. Processing and Saving Data
 Both training and test data are processed using the process_and_save_incrementally function, which writes the reformatted data into CSV files.
 
-python
+```python
 process_and_save_incrementally(train_data, window_size, stride, train_csv_path, chunk_size)
 process_and_save_incrementally(test_data, window_size, stride, test_csv_path, chunk_size)
+```
 
 6. Verification
 Checks file sizes to confirm data was written.
 Reads and prints the first few rows of both files to verify the data structure.
 
-python
+```python
 train_size = os.path.getsize(train_csv_path) / (1024 * 1024)
 test_size = os.path.getsize(test_csv_path) / (1024 * 1024)
 print(f"Train dataset saved as {train_csv_path} ({train_size:.1f} MB)")
 print(f"Test dataset saved as {test_csv_path} ({test_size:.1f} MB)")
 print(pd.read_csv(train_csv_path, nrows=10))
 print(pd.read_csv(test_csv_path, nrows=10))
+```
 
 Conclusion
 This script essentially transforms raw time-series data into a format suitable for sequential learning models by applying a sliding window technique, all while managing memory usage through incremental processing. This approach ensures that even very large datasets can be processed without overwhelming system resources.
