@@ -7,10 +7,10 @@ file_path = r"C:\data.csv"
 data = pd.read_csv(file_path)
 
 # Specify the split ratio and configurations
-train_ratio = 0.8
-window_size = 10
-stride = 1
-chunk_size = 1000  # Adjust this based on your memory constraints
+train_ratio = 0.7 # 70% train data, 30% test data
+window_size = 200 #  200 to 500 (less than 2378 rows per class).
+stride = 50 # 10% to 20% of the window size (e.g., 50 or  100).
+chunk_size = 1000  # Adjust this based on your memory constraints (RAM and CPU)
 
 # Specify output paths
 output_folder = r"C:\MLFiles"
