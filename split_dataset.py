@@ -99,5 +99,5 @@ print(f"Train dataset saved as {train_csv_path} ({train_size:.1f} MB)")
 print(f"Test dataset saved as {test_csv_path} ({test_size:.1f} MB)")
 
 # Optional: Read the first few rows to verify the output
-print("\nVerifying output (first 5 rows of training data):")
-print(pd.read_csv(train_csv_path, nrows=5))
+print("\nVerifying output (first 10 rows of training data):")
+print(pd.read_csv(train_csv_path, nrows=10))
