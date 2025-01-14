@@ -3,67 +3,101 @@ import numpy as np
 import os
 # implementation of a rolling window for the time-series dataset while keeping the sequential dependence intact
 # Load your dataset
-file_path = r"C:\file.csv"  # Replace with your actual file path
+file_path = r"C:\data.csv"
 data = pd.read_csv(file_path)
 
-# Specify the split ratio
-train_ratio = 0.8  # 80% for training, 20% for testing
+# Specify the split ratio and configurations
+train_ratio = 0.8
+window_size = 10
+stride = 1
+chunk_size = 1000  # Adjust this based on your memory constraints
 
-# Determine the split index
-split_index = int(len(data) * train_ratio)
-
-# Split the dataset
-train_data = data.iloc[:split_index]  # First 80% as training data
-test_data = data.iloc[split_index:]  # Last 20% as testing data
-
-# Rolling window configuration
-window_size = 10  # Number of time steps per sequence
-stride = 1        # Step size for sliding the window
-
-# Function to create rolling windows and save as DataFrame
-def create_rolling_windows_as_df(data, window_size, stride):
-    """
-    Create rolling windows for a dataset and format as a DataFrame.
-
-    Parameters:
-    - data: pd.DataFrame, the dataset
-    - window_size: int, number of time steps in each sequence
-    - stride: int, step size for the rolling window
-
-    Returns:
-    - rolling_df: pd.DataFrame, formatted rolling window data with features and target
-    """
-    features = data.iloc[:, :-1].values  # Assuming all columns except the last are features
-    labels = data.iloc[:, -1].values     # Assuming the last column is the label
-    rolling_data = []
-    for i in range(0, len(features) - window_size + 1, stride):
-        window = features[i:i + window_size].flatten().tolist()  # Flatten the window into a single row
-        target = labels[i + window_size - 1]  # Last value in the window is the target
-        rolling_data.append(window + [target])  # Combine features and target
-    # Create column names for features and target
-    feature_columns = [f"feature_{j}" for j in range(window_size * features.shape[1])]
-    rolling_df = pd.DataFrame(rolling_data, columns=feature_columns + ["target"])
-    return rolling_df
-
-# Create rolling windows for train and test datasets
-train_df = create_rolling_windows_as_df(train_data, window_size, stride)
-test_df = create_rolling_windows_as_df(test_data, window_size, stride)
-
-# Specify the folder where you want to save the data
-output_folder = r"C:\MLFiles"  # Replace with your desired folder path
-
-# Ensure the folder exists, if not, create it
-os.makedirs(output_folder, exist_ok=True)
-
-# Save the train and test DataFrames as CSV files
+# Specify output paths
+output_folder = r"C:\MLFiles"
 train_csv_path = os.path.join(output_folder, 'train.csv')
 test_csv_path = os.path.join(output_folder, 'test.csv')
 
-train_df.to_csv(train_csv_path, index=False)
-test_df.to_csv(test_csv_path, index=False)
 
-print(f"Train dataset saved as {train_csv_path}")
-print(f"Test dataset saved as {test_csv_path}")
+def process_and_save_incrementally(data, window_size, stride, output_path, chunk_size=1000):
+    """
+    Process data in chunks and save incrementally to avoid memory issues
+    """
+    # Calculate number of features
+    num_features = data.shape[1] - 1  # All columns except the last (target)
 
-print(f"Train dataset shape: {train_df.shape}")
-print(f"Test dataset shape: {test_df.shape}")
+    # Create header
+    feature_columns = [f"feature_{j}" for j in range(window_size * num_features)]
+    header = feature_columns + ["target"]
+
+    # Initialize file with header
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+
+    # Process chunks and append to file
+    total_rows = len(data) - window_size + 1
+    chunks_processed = 0
+
+    for chunk_start in range(0, len(data), chunk_size):
+        # Calculate chunk end considering window size
+        chunk_end = min(chunk_start + chunk_size + window_size, len(data))
+        chunk = data.iloc[chunk_start:chunk_end]
+
+        features = chunk.iloc[:, :-1].values
+        labels = chunk.iloc[:, -1].values
+
+        # Calculate valid windows for this chunk
+        max_window_start = min(chunk_size, len(chunk) - window_size)
+
+        # Append processed windows to file
+        with open(output_path, 'a', newline='') as f:
+            writer = csv.writer(f)
+            for i in range(0, max_window_start, stride):
+                window = features[i:i + window_size]
+                target = labels[i + window_size - 1]
+                row = np.concatenate([window.flatten(), [target]])
+                writer.writerow(row)
+
+        chunks_processed += max_window_start
+        print(
+            f"Progress: {chunks_processed}/{total_rows} rows processed ({(chunks_processed / total_rows * 100):.1f}%)")
+
+        # Clean up to free memory
+        del chunk, features, labels
+
+
+# Split data
+split_index = int(len(data) * train_ratio)
+train_data = data.iloc[:split_index]
+test_data = data.iloc[split_index:]
+
+print("Processing training data...")
+process_and_save_incrementally(
+    train_data,
+    window_size,
+    stride,
+    train_csv_path,
+    chunk_size=chunk_size
+)
+
+print("\nProcessing test data...")
+process_and_save_incrementally(
+    test_data,
+    window_size,
+    stride,
+    test_csv_path,
+    chunk_size=chunk_size
+)
+
+# Verify file sizes and row counts
+train_size = os.path.getsize(train_csv_path) / (1024 * 1024)  # Size in MB
+test_size = os.path.getsize(test_csv_path) / (1024 * 1024)  # Size in MB
+
+print(f"\nFiles created successfully:")
+print(f"Train dataset saved as {train_csv_path} ({train_size:.1f} MB)")
+print(f"Test dataset saved as {test_csv_path} ({test_size:.1f} MB)")
+
+# Optional: Read the first few rows to verify the output
+print("\nVerifying output (first 5 rows of training data):")
+print(pd.read_csv(train_csv_path, nrows=5))
