@@ -101,6 +101,6 @@ print(f"Test dataset saved as {test_csv_path} ({test_size:.1f} MB)")
 # Optional: Read the first few rows to verify the output
 print("\nVerifying output (first 10 rows of training data):")
 print(pd.read_csv(train_csv_path, nrows=10))
-# Optional: Read the first few rows to verify the output
+
 print("\nVerifying output (first 10 rows of testing data):")
 print(pd.read_csv(test_csv_path, nrows=10))
